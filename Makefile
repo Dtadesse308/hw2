@@ -22,7 +22,7 @@ product.o: product.cpp product.h
 	$(CXX) $(CXXFLAGS) $(DEFS) -o $@ -c product.cpp
 	
 movie.o: movie.cpp movie.h 
-	$(CXX) $(CXXFLAGS) $(DEFS) -o $@ -c Movie.cpp
+	$(CXX) $(CXXFLAGS) $(DEFS) -o $@ -c movie.cpp
 clothing.o: clothing.cpp clothing.h 
 	$(CXX) $(CXXFLAGS) $(DEFS) -o $@ -c clothing.cpp
 book.o: book.cpp book.h 
