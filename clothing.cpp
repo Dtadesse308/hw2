@@ -22,6 +22,16 @@ std::set<std::string> clothing::keywords() const{
     return keyWords;
 }
 
+std::string clothing::getCategory(){
+    return category_;
+}
+
+std::string clothing::getSpecific() {
+    string specific = "";
+    specific += (size_ + '\n' + brand_);
+    return specific;
+}
+
 std::string clothing::displayString() const{
 
 string word = name_ + '\n';
@@ -30,6 +40,7 @@ word += "size: " + size_ + " Brand: " + brand_ + '\n'
 
     return word;
 }
+
 
    bool clothing::isMatch(std::vector<std::string>& searchTerms) const{
        return 0;

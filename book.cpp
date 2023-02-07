@@ -24,6 +24,15 @@ std::set<std::string> book::keywords() const{
     return keyWords;
 
 }
+std::string book::getCategory(){
+    return category_;
+}
+
+std::string book::getSpecific() {
+    string specific = "";
+    specific += (ISBN_ + '\n' + authorName_);
+    return specific;
+}
 
 std::string book::displayString() const{
 

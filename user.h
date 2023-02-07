@@ -17,6 +17,7 @@ public:
     std::string getName() const;
     void deductAmount(double amt);
     virtual void dump(std::ostream& os);
+    int getType() const;
 
 private:
     std::string name_;

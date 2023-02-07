@@ -23,6 +23,16 @@ Movie::Movie( const std::string category, const std::string name, double price, 
     rating_ = rating;
 }
 
+std::string Movie::getCategory(){
+    return category_;
+}
+
+std::string Movie::getSpecific() {
+    string specific = "";
+    specific += (genre_ + '\n' + rating_);
+    return specific;
+}
+
 std::string Movie::displayString() const{
 
 string word = name_ + '\n';

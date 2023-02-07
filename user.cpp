@@ -22,6 +22,10 @@ std::string User::getName() const
     return name_;
 }
 
+int User::getType() const{
+    return type_;
+}
+
 double User::getBalance() const
 {
     return balance_;

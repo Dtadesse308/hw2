@@ -18,6 +18,11 @@ class Movie : public Product{
 
     virtual void dump(std::ostream& os) const;
 
+    std::string getCategory();
+
+    virtual std::string getSpecific() ;
+
+
     private:
     std::string genre_;
     std::string rating_;

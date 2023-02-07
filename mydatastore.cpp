@@ -158,17 +158,20 @@ using namespace std;
 
     void MyDataStore::dump(std::ostream& ofile){
 
-        ofile<<"products: ";
+        ofile<<"<products>"<<endl;
         for (int i = 0; i < (int)products_.size(); i ++){
-            ofile<<products_[i]<< " ";
+            ofile<<products_[i]->getCategory()<<endl;
+            ofile<<products_[i]->getName()<<endl; 
+            ofile<<products_[i]->getPrice()<<endl; 
+            ofile<<products_[i]->getQty()<<endl; 
+            ofile<<products_[i]->getSpecific()<<endl; 
         }
 
-        ofile<<'\n';
+        ofile<<'\n'<< "</products>"<<'\n'<< "<users>"<<endl;
 
-        ofile<<"users: ";
         map<string,User*>::iterator it;
         for (it = users_.begin(); it != users_.end(); it ++){
-            ofile<< (it->first)<< " ";
+            ofile<< (it->first)<<" "<<( (it->second)->getBalance()) <<" "<<  ( (it->second)->getType())<<endl;
         }
 
         ofile<<'\n';

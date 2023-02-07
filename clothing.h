@@ -17,6 +17,10 @@ class clothing : public Product{
 
     virtual void dump(std::ostream& os) const;
 
+    std::string getCategory();
+
+    virtual std::string getSpecific() ;
+
     
 
 
