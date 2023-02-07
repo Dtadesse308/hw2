@@ -32,6 +32,8 @@ Product* ProductParser::parse(string category,
     return parseSpecificProduct(category, is, error, errorMsg, lineno);
 }
 
+
+
 void ProductParser::parseCommonProduct(std::istream& is,
                                        bool& error,
                                        string& errorMsg,
@@ -78,10 +80,13 @@ void ProductParser::parseCommonProduct(std::istream& is,
         return;
     }
     lineno++;
+
+    
 }
 
 ProductBookParser::ProductBookParser() : ProductParser()
 {
+
 }
 
 Product* ProductBookParser::parseSpecificProduct(std::string category,
@@ -128,11 +133,15 @@ std::string ProductBookParser::categoryID()
  * Your job to fill in the code to create a new book product
  * using the data members in this class and the parent ProductParser class
  */
-Product* ProductBookParser::makeProduct()
+Product* ProductBookParser::makeProduct( ) 
 {
 
+   book* newBook = new book("book",prodName_, price_, qty_, author_, isbn_);
+
+   return newBook;
 
 }
+
 
 
 ProductClothingParser::ProductClothingParser()
@@ -183,11 +192,11 @@ std::string ProductClothingParser::categoryID()
  * Your job to fill in the code to create a new clothing product
  * using the data members in this class and the parent ProductParser class
  */
-Product* ProductClothingParser::makeProduct()
+Product* ProductClothingParser::makeProduct() 
 {
 
-
-
+    clothing* newClothing = new clothing ("clothing", prodName_, price_, qty_, size_, brand_);
+    return newClothing;
 }
 
 
@@ -243,8 +252,9 @@ std::string ProductMovieParser::categoryID()
  * Your job to fill in the code to create a new movie product
  * using the data members in this class and the parent ProductParser class
  */
-Product* ProductMovieParser::makeProduct()
+Product* ProductMovieParser::makeProduct() 
 {
-
+    Movie* newMovie = new Movie("Movie", prodName_, price_, qty_, genre_, rating_);
+    return newMovie;
 
 }

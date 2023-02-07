@@ -1,14 +1,29 @@
+
 #include <iostream>
 #include "product.h"
-using namespace std;
 
-class clothing : public product{
 
-    std::set<std::string> keywords();
+class clothing : public Product{
 
-    std::string displayString();
+    public:
+    
+    clothing(const std::string category, const std::string name, double price, int qty, std::string size_, std::string brand_);
+
+    std::set<std::string> keywords() const;
+
+    std::string displayString() const;
+       
+   virtual bool isMatch(std::vector<std::string>& searchTerms) const;
+
+    virtual void dump(std::ostream& os) const;
+
+    
+
 
     private:
-   
+    std::string size_;
+    std::string brand_;
 
-}
+};
+
+

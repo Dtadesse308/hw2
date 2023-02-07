@@ -1,15 +1,25 @@
-#include <iostream>
+
 #include "product.h"
-using namespace std;
 
-class movie : public product{
 
-    std::set<std::string> keywords();
+class Movie : public Product{
 
-    std::string displayString();
+    public: 
+    
+    Movie(const std::string category, const std::string name, double price, int qty, std::string genre, std::string rating);
 
+    virtual std::set<std::string> keywords() const;
+
+    virtual std::string displayString() const;
+
+
+   virtual bool isMatch(std::vector<std::string>& searchTerms) const;
+
+
+    virtual void dump(std::ostream& os) const;
 
     private:
-    std::string genre;
+    std::string genre_;
+    std::string rating_;
     
-}
+};

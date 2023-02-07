@@ -14,30 +14,42 @@ std::string convToLower(std::string src)
 /** Complete the code to convert a string containing a rawWord
     to a set of words based on the criteria given in the assignment **/
 
-    // I'll have dinner 
 std::set<std::string> parseStringToWords(string rawWords)
 {
 set<string> words;
+
+string rawWord = convToLower(rawWords);
+
 string currWord = "";
 
-for (int i = 0; i < rawWords.length(); i++){
+for (int i = 0; i < rawWord.length(); i++){
    
     
      //if a capital letter or a lowercase letter
-     if ( ((rawWord[i]) >= 65 && (rawWord[i] <= 90)) || (( (rawWord[i]) >= 97 ) && (rawWord[i] <= 122) ) || 
+     if ( ((rawWord[i]) >= 65 && (rawWord[i] <= 90)) || (( (rawWord[i]) >= 97 ) && (rawWord[i] <= 122) ) || (
      ((rawWord[i]) >= 48 ) && (rawWord[i] <= 57)  ) ){
-         couter++;
          currWord += rawWord[i];
          
      }
      else {
         if (currWord.length() >= 2){
+
             words.insert(currWord);         
-            currWord = "";
+            
         }
+        currWord = "";
+     }
+
+     if (i == rawWord.length()-1){
+        if (currWord.length() >= 2){
+            words.insert(currWord);         
+            
+        }
+        currWord = "";
      }
 
 }
+    return words;
 
 }
 

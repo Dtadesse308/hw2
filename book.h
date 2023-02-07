@@ -2,13 +2,25 @@
 #include "product.h"
 
 
-class book : public product{
-    
-    std::set<std::string> keywords();
+class book : public Product { 
 
-    std::string displayString();
+    public:
+
+    book(const std::string category, const std::string name, double price, int qty, std::string authorName, std::string ISBN);
+    
+    std::set<std::string> keywords() const;
+
+    std::string displayString() const;
+
+
+   virtual bool isMatch(std::vector<std::string>& searchTerms) const;
+
+
+    virtual void dump(std::ostream& os) const;
+
 
     private: 
-    std::string authorName;
-    int ISBN;
-}
+
+    std::string authorName_;
+    std::string ISBN_;
+};
