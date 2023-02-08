@@ -6,6 +6,7 @@
 #include <vector>
 #include <algorithm>
 #include "util.h"
+#include <iomanip>
 
 class Product {
 public:

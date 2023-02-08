@@ -27,7 +27,7 @@ for (int i = 0; i < rawWord.length(); i++){
     
      //if a capital letter or a lowercase letter
      if ( ((rawWord[i]) >= 65 && (rawWord[i] <= 90)) || (( (rawWord[i]) >= 97 ) && (rawWord[i] <= 122) ) || (
-     ((rawWord[i]) >= 48 ) && (rawWord[i] <= 57)  ) ){
+     ((rawWord[i]) >= 48 ) && (rawWord[i] <= 57)  ) || (rawWord[i] == 45) ){
          currWord += rawWord[i];
          
      }

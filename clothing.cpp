@@ -47,7 +47,7 @@ word += "size: " + size_ + " Brand: " + brand_ + '\n'
    }
 
     void clothing::dump(std::ostream& os) const{
-        os << category_ << "\n" << name_ << "\n" << price_ << "\n" << qty_ << "\n" << size_ <<  "\n" << brand_ <<endl;
+        os << category_ << "\n" <<std::fixed<<setprecision(2)<< name_ << "\n" << price_ << "\n" << qty_ << "\n" << size_ <<  "\n" << brand_ <<endl;
     }
 
 

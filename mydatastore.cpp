@@ -1,4 +1,5 @@
 #include "mydatastore.h"
+#include <iomanip>
 #include <iostream>
 #include <string>
 
@@ -59,13 +60,14 @@ using namespace std;
         vector<Product*> nulProd;
 
          //create map with keywords and products 
+
         makeMap();
        
         int termSize = terms.size();
     //no terms
         if (termSize == 0){
             return nulProd;
-            //displayProducts(nulProd);
+            displayProducts(nulProd);
         }
 
     //only one term
@@ -73,7 +75,7 @@ using namespace std;
 
             if (keyToProd_.find(terms[0]) != keyToProd_.end()){
                 vector<Product*> singleProd ( keyToProd_.find(terms[0])->second.begin(),keyToProd_.find(terms[0])->second.end()  );
-               // displayProducts(singleProd);
+                displayProducts(singleProd);
                return singleProd;
             }
         }
@@ -160,21 +162,20 @@ using namespace std;
 
         ofile<<"<products>"<<endl;
         for (int i = 0; i < (int)products_.size(); i ++){
-            ofile<<products_[i]->getCategory()<<endl;
-            ofile<<products_[i]->getName()<<endl; 
-            ofile<<products_[i]->getPrice()<<endl; 
-            ofile<<products_[i]->getQty()<<endl; 
-            ofile<<products_[i]->getSpecific()<<endl; 
+            products_[i]->dump(ofile);
+        
         }
 
-        ofile<<'\n'<< "</products>"<<'\n'<< "<users>"<<endl;
+        ofile<< "</products>"<<'\n'<< "<users>"<<endl;
 
         map<string,User*>::iterator it;
         for (it = users_.begin(); it != users_.end(); it ++){
-            ofile<< (it->first)<<" "<<( (it->second)->getBalance()) <<" "<<  ( (it->second)->getType())<<endl;
+            (it->second)->dump(ofile);
+
         }
 
-        ofile<<'\n';
+
+        ofile<<"</users>"<<endl;
     
 
     }

@@ -47,6 +47,6 @@ bool Movie::isMatch(std::vector<std::string>& searchTerms) const{
 }
 
 void Movie::dump(std::ostream& os) const{
-     os << category_ << "\n" << name_ << "\n" << price_ << "\n" << qty_ << "\n" << genre_ <<  "\n" << rating_ <<endl;
+     os << category_ << "\n" << name_ << std::fixed<<setprecision(2)<<"\n" << price_ << "\n" << qty_ << "\n" << genre_ <<  "\n" << rating_ <<endl;
 }
 
