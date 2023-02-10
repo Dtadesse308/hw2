@@ -9,41 +9,90 @@ using namespace std;
    /**
      * Adds a product to the data store
      */
+		MyDataStore::~MyDataStore(){
 
+			//std::vector<Product*> products_;
+    	//std::map<std::string,User*> users_;
+			for (int i = 0; i < products_.size(); i ++){
+				delete products_[i];
+			}
+			
+		
+		
+
+			map<string,User*>::iterator it;
+			for (it = users_.begin(); it != users_.end(); ++it){
+				delete (it->second);
+			}
+
+		}
     void MyDataStore::addProduct(Product* p){
         
         products_.push_back(p);
-
+				
+				
+        set<string> keys;
+				keys = p->keywords();
+			set<string>::iterator it;
+			 for (it = keys.begin() ; it != keys.end(); it++){
+                //check if keyword is in the map
+                //if in the map, add prod to the set
+								
+                if (keyToProd_.find(*it) != keyToProd_.end()){
+                   keyToProd_[*it].insert(p);
+                }
+								
+                //if not in map, create a set and add to mapz
+                else {
+                    set<Product*> newSet;
+                    newSet.insert(p);
+                    keyToProd_[*it] = newSet;
+                }
+								
+            }
     }
 
     /**
      * Adds a user to the data store
      */
     void MyDataStore::addUser(User* u){
+    
+
         users_[ (u->getName())] = u;
     }
 
 
     void MyDataStore::makeMap() {
+			keyToProd_.clear();
         set<string> keys;
          //create map with keywords and products 
-         for (int i = 0; i < (int)products_.size(); i ++){
+				 cout << "product size" << products_.size() <<endl;
+         for (int i = 0; i < (int)products_.size(); i++){
             keys = products_[i]->keywords();
+						cout <<"keys" << endl;
+						for(string k :keys) cout << k <<endl;
             //go through keys and add each keyword to map
+
             set<string>::iterator it;
-            for (it = keys.begin() ; it != keys.end(); i ++){
+						cout<<"KEYS SIZE" << keys.size()<<endl;
+						
+            for (it = keys.begin() ; it != keys.end(); it++){
                 //check if keyword is in the map
                 //if in the map, add prod to the set
+								
                 if (keyToProd_.find(*it) != keyToProd_.end()){
-                    keyToProd_.find(*it)->second.insert(products_[i]);
+                   keyToProd_[*it].insert(products_[i]);
                 }
+								
                 //if not in map, create a set and add to mapz
-                else if (keyToProd_.find(*it) == keyToProd_.end()){
+                else {
                     set<Product*> newSet;
                     newSet.insert(products_[i]);
                     keyToProd_[*it] = newSet;
                 }
+								
             }
+						
          }
 
 
@@ -55,30 +104,42 @@ using namespace std;
      *  type 0 = AND search (intersection of results for each term) while
      *  type 1 = OR search (union of results for each term)
      */
+
     std::vector<Product*> MyDataStore::search(std::vector<std::string>& terms, int type){
 
+
+				map<string,set<Product*>>::iterator it;
+
+			//	for (it = keyToProd_.begin(); it != keyToProd_.end(); ++it){
+				//	cout<<(it->first)<<endl;
+				//}
         vector<Product*> nulProd;
 
          //create map with keywords and products 
 
-        makeMap();
+        //makeMap();
        
         int termSize = terms.size();
+			
     //no terms
         if (termSize == 0){
             return nulProd;
-            displayProducts(nulProd);
+            //displayProducts(nulProd);
         }
 
     //only one term
-        else if (termSize == 1){
+       // else if (termSize == 1){
 
-            if (keyToProd_.find(terms[0]) != keyToProd_.end()){
-                vector<Product*> singleProd ( keyToProd_.find(terms[0])->second.begin(),keyToProd_.find(terms[0])->second.end()  );
-                displayProducts(singleProd);
-               return singleProd;
-            }
-        }
+            // if (keyToProd_.find(terms[0]) != keyToProd_.end()){
+							
+               //vector<Product*> singleProd ( keyToProd_[terms[0]].begin(),keyToProd_[terms[0]].end()  );
+              //  displayProducts(singleProd);
+		  //  vector<Product*> singleProd ( keyToProd_[terms[0]].begin(),keyToProd_[terms[0]].end()  );
+
+           //    return singleProd;
+            //}
+      //  }
+				// return nulProd;
 
       
         //if term size is more than 1
@@ -87,12 +148,10 @@ using namespace std;
         set<Product*> temp;
 
         //and search (intersection)
-        if (type == 2){
-           
-           
+        if (type == 0){      
             bool initalized = false;
             for (int i = 0; i < (int)terms.size(); i ++){
-
+								
                 //initalize set with first terms products
                 if (!initalized){
                     if (keyToProd_.find(terms[i]) != keyToProd_.end()) {
@@ -106,7 +165,7 @@ using namespace std;
                  //on second set, place all intersection(s1 and s2) sets into tempset
                 //set first set to temp and repeat for rest of the terms
 
-                if (initalized){
+                else if (initalized){
                     if (keyToProd_.find(terms[i]) != keyToProd_.end()){
                         temp = setIntersection(intersectSet, keyToProd_.find(terms[i])->second);
                         intersectSet = temp;
@@ -125,28 +184,35 @@ using namespace std;
         //or search (union / all)
         else if (type == 1){
            bool initalized = false;
-            for (int i = 0; i < (int)terms.size(); ++i){
-
+					
+            vector<string>::iterator it;
+            for (it = terms.begin(); it != terms.end(); ++it){
+				
                 if (!initalized){
-                    if (keyToProd_.find(terms[i]) != keyToProd_.end()){
-                        unionSet = keyToProd_.find(terms[i])->second;
+								//	cout<<"search1"<<endl;
+                    if (keyToProd_.find((*it)) != keyToProd_.end()){											
+                        unionSet = keyToProd_[*it];
                         initalized = true;
-                    }
+                    } 
                 }
 
                 else if (initalized){
-                    if (keyToProd_.find(terms[i]) != keyToProd_.end()){
-                        temp = setUnion(unionSet, keyToProd_.find(terms[i])->second);
+									//cout<<"search2"<<endl;
+                    if (keyToProd_.find((*it)) != keyToProd_.end()){
+											
+                        temp = setUnion(unionSet, keyToProd_[*it]);
                         unionSet = temp;
                     }
                     
                 }
-
-                vector<Product*> unionVect (unionSet.begin() , unionSet.end());
-               // displayProducts(unionVect);
-                return unionVect;
+                
             }
-           
+						//cout<<"search3"<<endl;
+				vector<Product*> unionVect(unionSet.begin() , unionSet.end());
+                return unionVect;
+				
+
+
         }
 
 
@@ -171,7 +237,6 @@ using namespace std;
         map<string,User*>::iterator it;
         for (it = users_.begin(); it != users_.end(); it ++){
             (it->second)->dump(ofile);
-
         }
 
 
@@ -183,21 +248,28 @@ using namespace std;
   
 
      //add to cart
-    void MyDataStore::addToCart(std::string username, int index){
+    void MyDataStore::addToCart(std::string username, Product* hit){
 
-       
-
+      // index--;
+	
+			
         //if user exisits in set, add to exisiting cart
-        if (cart.find(username) != cart.end()){
-            cart.find(username)->second.insert(products_[index]);
+        if (users_.find(username) == users_.end()){
+            cout<< "Invalid request"<<endl;
+            return;
+        }
+        else if (cart.find(username) != cart.end()){
+            cart.find(username)->second.push_back(hit);
+						
         }
         //if user dne, create a new cart and add to map
         else if (cart.find(username) == cart.end()){
-            set<Product*> newSet;
-            newSet.insert(products_[index]);
+            vector<Product*> newSet;
+            newSet.push_back(hit);
             cart[username] = newSet;
         }
 
+        
     }
 
     //view card
@@ -214,14 +286,18 @@ using namespace std;
         int index = 1;
 
         
-        cout<<"Viewing Cart: "<<endl;
+        //cout<<"Viewing Cart: "<<endl;
             //get the set of products from cart
-           set<Product*> newSet =  cart.find(username)->second;
-           set<Product*>::iterator it;
-           for (it = newSet.begin(); it != newSet.end(); ++it){
-               cout<<index<<": "<<(*it)->getName()<<endl;
+           vector<Product*> newSet =  cart[username];
+					
+           
+           for (int i = 0; i < newSet.size(); i++){
+               cout<<"Item "<<index<<endl<<newSet[i]->displayString()<<endl;
+							 cout<<endl;
                index++;
            }
+					
+
         }
     }
 
@@ -238,21 +314,35 @@ using namespace std;
 
         else if ( cart.find(username) != cart.end() ){
             //get the set of product*'s
-            set<Product*> newSet =  cart.find(username)->second;
+            vector<Product*> newSet =  cart.find(username)->second;
             //get user balance
             double currBalance = users_.find(username)->second->getBalance();
-            set<Product*>::iterator it;
+            
+						vector<Product*> temp;
             //go through items in users cart
-            for (it = newSet.begin(); it != newSet.end(); ++it){
+            for (int i = 0; i < newSet.size(); ++i){
                 //if enought money and enought in stock
-                if ( ((*it)->getPrice() <= currBalance) && ( (*it)->getQty() >= 1) ){
+                if ( (newSet[i]->getPrice() <= currBalance) && ( newSet[i]->getQty() >= 1) ){
                     //deduct from balance
-                    currBalance -= (*it)->getPrice();
-                    users_.find(username)->second->deductAmount((*it)->getPrice());
+                    currBalance -= newSet[i]->getPrice();
+                    users_.find(username)->second->deductAmount(newSet[i]->getPrice());
                     //remove from stock
-                    (*it)->subtractQty(1);
+                    newSet[i]->subtractQty(1);
                 }
+
+								else {
+									temp.push_back(newSet[i]);
+								}
             }
+						if (temp.size() == 0){
+             cart.erase(username);
+           }
+           else {
+             cart[username]=temp;
+           }
+
+
+
 
         }
 

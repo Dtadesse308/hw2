@@ -35,7 +35,7 @@ std::string clothing::getSpecific() {
 std::string clothing::displayString() const{
 
 string word = name_ + '\n';
-word += "size: " + size_ + " Brand: " + brand_ + '\n' 
+word += "Size: " + size_ + " Brand: " + brand_ + '\n' 
 + to_string(price_) + " " + to_string(qty_) + " left.";
 
     return word;

@@ -1,4 +1,5 @@
 #include "datastore.h"
+#include "util.h"
 #include <map>
 class MyDataStore : public DataStore {
 
@@ -9,6 +10,8 @@ class MyDataStore : public DataStore {
      * Adds a product to the data store
      */
     virtual void addProduct(Product* p);
+
+		~MyDataStore();
 
     /**
      * Adds a user to the data store
@@ -31,7 +34,7 @@ class MyDataStore : public DataStore {
     void makeMap();
 
     //add to cart
-    void addToCart(std::string username, int index);
+    void addToCart(std::string username, Product* hit);
 
     //view card
     void viewCart(std::string username);
@@ -42,8 +45,10 @@ class MyDataStore : public DataStore {
 
     private:
 
+		
     std::vector<Product*> products_;
+	//	std::vector<Product*>searchResults_;
     std::map<std::string,User*> users_;
     std::map<std::string,std::set<Product*>> keyToProd_;
-    std::map<std::string,std::set<Product*>> cart;
+    std::map<std::string,std::vector<Product*>> cart;
 };

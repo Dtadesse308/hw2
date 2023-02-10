@@ -107,8 +107,15 @@ int main(int argc, char* argv[])
                 int index;
                 ss>>userName;
                 ss>>index;
-                ds.addToCart(userName, index);
+
+                if ( (index <= hits.size()) && (index >= 1)){ 
+                    
+                ds.addToCart(userName, hits[index-1]);
                 
+                }
+                else {
+                    cout<<"Invalid request"<<endl;
+                }
 
             }
             else if (cmd == "VIEWCART"){
@@ -134,13 +141,16 @@ int main(int argc, char* argv[])
     return 0;
 }
 
+
 void displayProducts(vector<Product*>& hits)
 {
+
     int resultNo = 1;
     if (hits.begin() == hits.end()) {
     	cout << "No results found!" << endl;
     	return;
     }
+
     std::sort(hits.begin(), hits.end(), ProdNameSorter());
     for(vector<Product*>::iterator it = hits.begin(); it != hits.end(); ++it) {
         cout << "Hit " << setw(3) << resultNo << endl;

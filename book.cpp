@@ -2,6 +2,8 @@
 #include <string>
 #include "book.h"
 #include "util.h"
+#include <sstream>
+#include<string>
 
 using namespace std;
 
@@ -17,8 +19,18 @@ std::set<std::string> book::keywords() const{
 
 
     set<string> keyWords;
+    
 
-    keyWords = parseStringToWords (name_) ;
+    keyWords = parseStringToWords(name_) ;
+
+    set<string> authorKeys = parseStringToWords(authorName_);
+    set<string>::iterator it;
+
+    for (it = authorKeys.begin(); it != authorKeys.end(); ++it){
+        keyWords.insert(*it);
+    }
+    
+    
     keyWords.insert(ISBN_);
 
     return keyWords;
@@ -36,11 +48,14 @@ std::string book::getSpecific() {
 
 std::string book::displayString() const{
 
-    string word = name_ + '\n';
-    word += "Author: " + authorName_ + " ISBN: " + ISBN_ + '\n' 
-    + to_string(price_) + " " + to_string(qty_) + " left.";
+    stringstream ss;
+    
 
-    return word;
+    ss << name_ << '\n'<<
+     "Author: " << authorName_ << " ISBN: " << ISBN_ << '\n' 
+    <<std::fixed<<setprecision(2)<< price_ << " " << qty_ << " left.";
+
+    return ss.str();
 }
 
 

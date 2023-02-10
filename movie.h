@@ -1,5 +1,6 @@
 
 #include "product.h"
+#include "util.h"
 
 
 class Movie : public Product{
